@@ -15,47 +15,6 @@ parser.add_argument("-c", "--channel", dest="channel", default="Muon")
 channels = ["Muon", "Electron"]
 models = ["Majorana", "Dirac"]
 
-def get_expected_limits(channel, model):
-
-    limits_exp = {}
-    limits_obs = {}
-
-    if model == "Majorana" :
-        masses = [500, 600, 700, 800, 1000, 1200, 1500]
-    elif model == "Dirac" :
-        masses = [500, 600, 700, 800, 1000, 1200]
-
-    for mass in masses:
-
-        limits_exp[mass] = {}
-        limits_obs[mass] = {}
-        for region in ["Combined", "Merged", "Resolved"]:
-            logfile = f"{region}{channel}_Exp_MN__equal__{mass}GeV__space__{model}.log"
-            limits_exp[mass][region] = {}
-            with open(f"logs/cards/{region}/{logfile}") as read_lines:
-                lines = read_lines.readlines()
-                for line in reversed(lines):
-                    line = line.strip()
-                    if " 50.0%" in line: limits_exp[mass][region]["50.0%"] = float(line.split(" < ")[1])
-                    if region == "Combined":
-                        if " 2.5%" in line: limits_exp[mass][region]["2.5%"] = float(line.split(" < ")[1])
-                        if " 16.0%" in line: limits_exp[mass][region]["16.0%"] = float(line.split(" < ")[1])
-                        if " 84.0%" in line: limits_exp[mass][region]["84.0%"] = float(line.split(" < ")[1])
-                        if " 97.5%" in line: limits_exp[mass][region]["97.5%"] = float(line.split(" < ")[1])
-
-        for region in ["Combined", "Merged", "Resolved"]:
-            logfile = f"{region}{channel}_Obs_MN__equal__{mass}GeV__space__{model}.log"
-            limits_obs[mass][region] = {}
-            with open(f"logs/cards/{region}/{logfile}") as read_lines:
-                lines = read_lines.readlines()
-                for line in reversed(lines):
-                    line = line.strip()
-                    if " 50.0%" in line: limits_obs[mass][region]["50.0%"] = float(line.split(" < ")[1])
-
-    return limits_exp, limits_obs
-
-def get_upper graoh
-
 def draw_limits(channel, model, final):
 
     #x_grids = array.array('d')
